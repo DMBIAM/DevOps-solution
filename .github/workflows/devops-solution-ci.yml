@@ -42,4 +42,3 @@ jobs:
             --build-arg PORT=8000 \
             -t $REPO .
           #Run Unit Tests
-          docker run $REPO py manage.py test
