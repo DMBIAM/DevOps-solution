@@ -41,9 +41,5 @@ jobs:
             --build-arg REPO='https://bitbucket.org/devsu/demo-devops-python.git' \
             --build-arg PORT=8000 \
             -t $REPO .
-
-      - 
-        name: Run Unit Tests
-        env:
-          REPO: ${{ secrets.DOCKERHUB_REPO }}
-        run: docker run $REPO py manage.py test
+          #Run Unit Tests
+          docker run $REPO py manage.py test
