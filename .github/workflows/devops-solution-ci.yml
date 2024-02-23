@@ -35,8 +35,8 @@ jobs:
         name: Build and not push Docker image
         run: |
           docker buildx build \
-            --build-arg USER=devops \
-            --build-arg REPO=https://bitbucket.org/devsu/demo-devops-python.git \
+            --build-arg USER='devops' \
+            --build-arg REPO='https://bitbucket.org/devsu/demo-devops-python.git' \
             --build-arg PORT=8000 \
             -t $REPO .
             -f Dockerfile .
