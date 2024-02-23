@@ -21,7 +21,6 @@ RUN useradd -m $USER
 # SET /app default dir
 WORKDIR /app
 
-
 # Clone the repository where the code is located
 RUN git clone $REPO .
 
