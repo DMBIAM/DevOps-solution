@@ -27,6 +27,9 @@ RUN git clone $REPO .
 # Install dependencies.
 RUN pip3 install --no-cache-dir -r requirements.txt
 
+# Install pylint and coverage
+RUN pip install --no-input pylint coverage
+
 # Migrate database
 RUN python3 manage.py makemigrations
 RUN python3 manage.py migrate
