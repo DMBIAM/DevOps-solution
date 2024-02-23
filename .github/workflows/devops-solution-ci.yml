@@ -8,7 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    
+    env:
+      REPO: ${{ secrets.DOCKERHUB_REPO }}
     steps:
     
       - 
@@ -33,17 +34,25 @@ jobs:
 
       - 
         name: Build and not push Docker image
-        env:
-          REPO: ${{ secrets.DOCKERHUB_REPO }}
         run: |
           docker buildx build \
             --build-arg USER='devops' \
             --build-arg REPO='https://bitbucket.org/devsu/demo-devops-python.git' \
             --build-arg PORT=8000 \
             --load \
-            -t devops .
+            -t $REPO .
       
       - 
         name: Run Unit Tests
         run: |
-          docker run devops python3  manage.py test
+          docker run $REPO python3 manage.py test
+      
+      - 
+        name: Static Code Analysis
+        run: docker run $REPO pylint manage.py
+
+      - name: Code Coverage
+        run: docker run $REPO coverage run --source=manage.py -m pytest && coverage report 
+      
+      - name: Run Bandit for security analysis
+        run: docker run $REPO ~/.local/bin/bandit -r .
