@@ -74,11 +74,11 @@ jobs:
       -
         name: Generate Failure Comment
         if: always() && ${{ failure() }}
-        uses: actions/github-script@v5
+        uses: actions/github-script@v7
         with:
           github-token: ${{ github.token }}
           script: |
-            const issueNumber = context.payload.pull_request.number;
+            const issueNumber = context.issue.number;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const stepName = context.job;
@@ -87,6 +87,5 @@ jobs:
               owner,
               repo,
               issue_number: issueNumber,
-              stepName,
               body: comment
             });
