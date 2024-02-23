@@ -50,7 +50,6 @@ jobs:
       - 
         name: Static Code Analysis
         run: 
-          set +e
           docker run $REPO pylint manage.py > pylint_output.txt
           cat pylint_output.txt
 
