@@ -87,5 +87,5 @@ jobs:
               owner,
               repo,
               issue_number: issueNumber,
-              body: comment
+              body: body
             });
