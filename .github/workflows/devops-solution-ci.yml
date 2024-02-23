@@ -78,7 +78,6 @@ jobs:
         with:
           github-token: ${{ github.token }}
           script: |
-            const { context } = github;
             const stepName = context.job;
             const body = `:x: **${stepName}** failed. Please check the logs for more details.`;
             const comment = context.issue({ body });
