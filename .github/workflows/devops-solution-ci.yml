@@ -51,12 +51,8 @@ jobs:
         name: Static Code Analysis
         run: 
           set +e
-          docker run $REPO pylint manage.py
-          EXIT_CODE=$?
-          if [ $EXIT_CODE -ne 0 ];
-            echo "Static Code Analysis failed with exit code $EXIT_CODE"
-          fi
-          set -e
+          docker run $REPO pylint manage.py > pylint_output.txt
+          cat pylint_output.txt
 
       - name: Code Coverage
         run: docker run $REPO coverage run --source=manage.py -m pytest && coverage report 
