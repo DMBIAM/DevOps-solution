@@ -78,7 +78,15 @@ jobs:
         with:
           github-token: ${{ github.token }}
           script: |
+            const issueNumber = context.payload.issue.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
             const stepName = context.job;
             const body = `:x: **${stepName}** failed. Please check the logs for more details.`;
-            const comment = context.issue({ body });
-            await github.issues.createComment(comment);
+            await github.issues.createComment({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              stepName,
+              body: comment
+            });
