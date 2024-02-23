@@ -44,4 +44,6 @@ jobs:
 
       - 
         name: Run Unit Tests
+        env:
+          REPO: ${{ secrets.DOCKERHUB_REPO }}
         run: docker run $REPO py manage.py test
