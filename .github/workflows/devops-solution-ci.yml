@@ -50,8 +50,9 @@ jobs:
       - 
         name: Static Code Analysis
         run: 
-          docker run $REPO pylint manage.py > pylint_output.txt
-          cat pylint_output.txt
+          docker run $REPO pylint manage.py
+        env:
+          CI: false
 
       - name: Code Coverage
         run: docker run $REPO coverage run --source=manage.py -m pytest && coverage report 
