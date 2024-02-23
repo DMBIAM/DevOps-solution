@@ -52,7 +52,7 @@ jobs:
         run: 
           docker run $REPO pylint manage.py
         env:
-          CI: false
+          CI: ""
 
       - name: Code Coverage
         run: docker run $REPO coverage run --source=manage.py -m pytest && coverage report 
