@@ -83,7 +83,7 @@ jobs:
             const repo = context.repo.repo;
             const stepName = context.job;
             const body = `:x: **${stepName}** failed. Please check the logs for more details.`;
-            await github.issues.createComment({
+            await github.rest.issues.createComment({
               owner,
               repo,
               issue_number: issueNumber,
