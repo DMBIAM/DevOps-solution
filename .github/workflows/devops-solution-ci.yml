@@ -39,7 +39,6 @@ jobs:
             --build-arg REPO='https://bitbucket.org/devsu/demo-devops-python.git' \
             --build-arg PORT=8000 \
             -t davidmartinezb1/devops-solution .
-            -f Dockerfile .
 
       - 
         name: Run Unit Tests
