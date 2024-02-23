@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       REPO: ${{ secrets.DOCKERHUB_REPO }}
+      CI: ""
     steps:
     
       - 
@@ -51,8 +52,6 @@ jobs:
         name: Static Code Analysis
         run: 
           docker run $REPO pylint manage.py
-        env:
-          CI: ""
 
       - name: Code Coverage
         run: docker run $REPO coverage run --source=manage.py -m pytest && coverage report 
