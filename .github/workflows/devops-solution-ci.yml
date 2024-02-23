@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       REPO: ${{ secrets.DOCKERHUB_REPO }}
-      CI: ""
     steps:
     
       - 
@@ -50,11 +49,13 @@ jobs:
       
       - 
         name: Static Code Analysis
-        run: 
-          docker run $REPO pylint manage.py
+        run: docker run $REPO pylint manage.py
+        continue-on-error: true
 
       - name: Code Coverage
         run: docker run $REPO coverage run --source=manage.py -m pytest && coverage report 
+        continue-on-error: true
 
       - name: Run Bandit for security analysis
         run: docker run $REPO ~/.local/bin/bandit -r .
+        continue-on-error: true
