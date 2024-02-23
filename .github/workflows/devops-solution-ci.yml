@@ -40,8 +40,9 @@ jobs:
             --build-arg USER='devops' \
             --build-arg REPO='https://bitbucket.org/devsu/demo-devops-python.git' \
             --build-arg PORT=8000 \
+            --load \
             -t devops .
-            --load .
+            
           #Run Unit Tests
       
       - 
