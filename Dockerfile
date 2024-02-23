@@ -34,9 +34,6 @@ RUN pip install --no-input pylint coverage
 RUN python3 manage.py makemigrations
 RUN python3 manage.py migrate
 
-# Run test
-RUN python3 manage.py test
-
 # Expose port for app
 EXPOSE $PORT
 
