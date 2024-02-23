@@ -33,12 +33,14 @@ jobs:
 
       - 
         name: Build and not push Docker image
+        env:
+          REPO: ${{ secrets.DOCKERHUB_REPO }}
         run: |
           docker buildx build \
             --build-arg USER='devops' \
             --build-arg REPO='https://bitbucket.org/devsu/demo-devops-python.git' \
             --build-arg PORT=8000 \
-            -t davidmartinezb1/devops-solution .
+            -t $REPO .
 
       - 
         name: Run Unit Tests
