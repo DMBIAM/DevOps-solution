@@ -38,7 +38,7 @@ jobs:
             --build-arg USER='devops' \
             --build-arg REPO='https://bitbucket.org/devsu/demo-devops-python.git' \
             --build-arg PORT=8000 \
-            -t $REPO .
+            -t davidmartinezb1/devops-solution .
             -f Dockerfile .
 
       - 
