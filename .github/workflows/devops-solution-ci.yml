@@ -5,6 +5,10 @@ on:
     branches:
       - develop
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -46,16 +50,36 @@ jobs:
         name: Run Unit Tests
         run: |
           docker run $REPO python3 manage.py test
+        continue-on-error: true
+        if: always() && ${{ failure() }}
       
       - 
         name: Static Code Analysis
         run: docker run $REPO pylint manage.py
         continue-on-error: true
+        if: always() && ${{ failure() }}
 
-      - name: Code Coverage
+      - 
+        name: Code Coverage
         run: docker run $REPO coverage run --source=manage.py -m pytest && coverage report 
         continue-on-error: true
+        if: always() && ${{ failure() }}
 
-      - name: Run Bandit for security analysis
+      - 
+        name: Run Bandit for security analysis
         run: docker run $REPO ~/.local/bin/bandit -r .
         continue-on-error: true
+        if: always() && ${{ failure() }}
+
+      -
+        name: Generate Failure Comment
+        if: always() && ${{ failure() }}
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const { context } = github;
+            const stepName = context.job;
+            const body = `:x: **${stepName}** failed. Please check the logs for more details.`;
+            const comment = context.issue({ body });
+            await github.issues.createComment(comment);
