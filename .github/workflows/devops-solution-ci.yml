@@ -83,6 +83,8 @@ jobs:
               :octocat: **Actor:** ${actor}
               :rocket: **Run ID:** ${runId}
               :bookmark: **SHA:** ${sha}
+              \n\n
+              One or more steps have issues. Please verify them at https://github.com/DMBIAM/DevOps-solution/actions/runs/${runId}.
             `;
             if (context.payload.issue) {
               await github.rest.issues.createComment({
