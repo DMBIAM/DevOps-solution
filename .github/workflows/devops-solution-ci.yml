@@ -93,7 +93,6 @@ jobs:
               sha,
               ref,
               workflow,
-              action,
               actor,
               job,
               runId,
@@ -107,7 +106,7 @@ jobs:
               payload,
               issue,
               pullRequest,
-              project,
+              project
             } = context;
             
             const body = `
@@ -129,7 +128,6 @@ jobs:
               :sparkles: **Issue:** ${JSON.stringify(issue)}
               :pager: **Pull Request:** ${JSON.stringify(pullRequest)}
               :clipboard: **Project:** ${JSON.stringify(project)}
-              :warning: **Other Context:** ${JSON.stringify(otherContext)}
             `;
             if (context.payload.issue) {
               await github.rest.issues.createComment({
