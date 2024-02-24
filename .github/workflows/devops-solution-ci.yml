@@ -76,7 +76,7 @@ jobs:
         if: always() && ${{ failure() }}
         uses: actions/github-script@v7
         env:
-          github-token: ${{ github.token }}
+          github-token: ${{ secrets.PERSONAL_TOKEN }}
         with:
           script: |
             const stepName = context.job;
