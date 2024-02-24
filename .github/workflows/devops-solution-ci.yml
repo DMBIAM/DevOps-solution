@@ -75,6 +75,6 @@ jobs:
         name: Generate Failure Comment
         if: always() && ${{ failure() }}
         uses: mainmatter/continue-on-error-comment@v1
-          with:
-            github-token: ${{ github.token }}
-            outcome: ${{ steps.build.outcome }}
+        with:
+          github-token: ${{ github.token }}
+          outcome: ${{ steps.build.outcome }}
