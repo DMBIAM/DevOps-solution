@@ -85,30 +85,10 @@ jobs:
         uses: actions/github-script@v7
         env:
           github-token: ${{ secrets.PERSONAL_TOKEN }}
-          MESSAGE: ${{steps.set-result.outputs.result}}
         with:
           script: |
-            let stepName = '';
-            const actionName = context.workflow;
-            const job = context.job;
-            const eventName = context.eventName;
-            switch (actionName) {
-              case 'Run Unit Tests':
-                stepName = 'Unit Tests';
-                break;
-              case 'Static Code Analysis':
-                stepName = 'Static Code Analysis';
-                break;
-              case 'Code Coverage':
-                stepName = 'Code Coverage';
-                break;
-              case 'Run Bandit for security analysis':
-                stepName = 'Bandit Security Analysis';
-                break;
-              default:
-                stepName = 'Unknown';
-            }
-            const body = `:x: **${MESSAGE}** failed. Please check the logs for more details.`;
+            const stepName = context.job.name;
+            const body = `:x: **${stepName}** failed. Please check the logs for more details.`;
             if (context.payload.issue) {
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
