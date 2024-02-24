@@ -17,29 +17,22 @@ jobs:
     env:
       REPO: ${{ secrets.DOCKERHUB_REPO }}
     steps:
-    
-      - 
-        name: Checkout code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      -
-        name: Set up QEMU
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
-      -
-        name: Set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3      
 
-
-      -
-        name: Login to Docker Hub
+      - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - 
-        name: Build and not push Docker image
+      - name: Build and not push Docker image
         id: build_image
         run: |
           docker buildx build \
@@ -49,37 +42,32 @@ jobs:
             --load \
             -t $REPO .
       
-      - 
-        name: Run Unit Tests
+      - name: Run Unit Tests
         id: run_unit_test
         run: |
           docker run $REPO python3 manage.py test
         continue-on-error: true
         if: always() && ${{ failure() }}
       
-      - 
-        name: Static Code Analysis
-        id: run_stactic_code_analysis
+      - name: Static Code Analysis
+        id: run_static_code_analysis
         run: docker run $REPO pylint manage.py
         continue-on-error: true
         if: always() && ${{ failure() }}
 
-      - 
-        name: Code Coverage
+      - name: Code Coverage
         id: run_code_coverage
         run: docker run $REPO coverage run --source=manage.py -m pytest && coverage report 
         continue-on-error: true
         if: always() && ${{ failure() }}
 
-      - 
-        name: Run Bandit for security analysis
+      - name: Run Bandit for security analysis
         id: run_security_analysis
         run: docker run $REPO ~/.local/bin/bandit -r .
         continue-on-error: true
         if: always() && ${{ failure() }}
 
-      -
-        name: Generate Failure Comment
+      - name: Generate Failure Comment
         id: create_issues
         if: always() && ${{ failure() }}
         uses: actions/github-script@v7
@@ -87,47 +75,14 @@ jobs:
           github-token: ${{ secrets.PERSONAL_TOKEN }}
         with:
           script: |
-            const stepName = context.job.name;
-            const {
-              eventName,
-              sha,
-              ref,
-              workflow,
-              actor,
-              job,
-              runId,
-              runNumber,
-              apiUrl,
-              serverUrl,
-              graphqlUrl,
-              workspace,
-              action,
-              repo,
-              payload,
-              issue,
-              pullRequest,
-              project
-            } = context;
-            
+            const stepName = job.name;
+            const { workflow, actor, runId, sha } = context;
             const body = `
-              :x: **Step Name:** ${job.name}
+              :x: **Step Name:** ${stepName}
               :rocket: **Workflow:** ${workflow}
               :octocat: **Actor:** ${actor}
-              :page_with_curl: **API URL:** ${apiUrl}
-              :globe_with_meridians: **Server URL:** ${serverUrl}
-              :spider_web: **GraphQL URL:** ${graphqlUrl}
-              :file_folder: **Workspace:** ${workspace}
-              :package: **Action:** ${action}
-              :diamond_shape_with_a_dot_inside: **Repository:** ${repo.owner}/${repo.repo}
               :rocket: **Run ID:** ${runId}
-              :1234: **Run Number:** ${runNumber}
-              :scroll: **Event Name:** ${eventName}
               :bookmark: **SHA:** ${sha}
-              :label: **Ref:** ${ref}
-              :rocket: **Payload:** ${JSON.stringify(payload)}
-              :sparkles: **Issue:** ${JSON.stringify(issue)}
-              :pager: **Pull Request:** ${JSON.stringify(pullRequest)}
-              :clipboard: **Project:** ${JSON.stringify(project)}
             `;
             if (context.payload.issue) {
               await github.rest.issues.createComment({
