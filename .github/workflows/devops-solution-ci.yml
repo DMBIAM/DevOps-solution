@@ -88,7 +88,49 @@ jobs:
         with:
           script: |
             const stepName = context.job.name;
-            const body = `:x: **${stepName}** failed. Please check the logs for more details.`;
+            const {
+              eventName,
+              sha,
+              ref,
+              workflow,
+              action,
+              actor,
+              job,
+              runId,
+              runNumber,
+              apiUrl,
+              serverUrl,
+              graphqlUrl,
+              workspace,
+              action,
+              repo,
+              payload,
+              issue,
+              pullRequest,
+              project,
+            } = context;
+            
+            const body = `
+              :x: **Step Name:** ${job.name}
+              :rocket: **Workflow:** ${workflow}
+              :octocat: **Actor:** ${actor}
+              :page_with_curl: **API URL:** ${apiUrl}
+              :globe_with_meridians: **Server URL:** ${serverUrl}
+              :spider_web: **GraphQL URL:** ${graphqlUrl}
+              :file_folder: **Workspace:** ${workspace}
+              :package: **Action:** ${action}
+              :diamond_shape_with_a_dot_inside: **Repository:** ${repo.owner}/${repo.repo}
+              :rocket: **Run ID:** ${runId}
+              :1234: **Run Number:** ${runNumber}
+              :scroll: **Event Name:** ${eventName}
+              :bookmark: **SHA:** ${sha}
+              :label: **Ref:** ${ref}
+              :rocket: **Payload:** ${JSON.stringify(payload)}
+              :sparkles: **Issue:** ${JSON.stringify(issue)}
+              :pager: **Pull Request:** ${JSON.stringify(pullRequest)}
+              :clipboard: **Project:** ${JSON.stringify(project)}
+              :warning: **Other Context:** ${JSON.stringify(otherContext)}
+            `;
             if (context.payload.issue) {
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
