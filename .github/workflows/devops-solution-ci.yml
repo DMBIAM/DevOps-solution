@@ -92,13 +92,13 @@ jobs:
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
                 body: body,
-                title: `The job ${stepName} into CI have issues`,
+                title: stepName,
               });
             } else {
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 body: body,
-                title: `The job ${stepName} into CI have issues`,
+                title: stepName,
               });
             }
