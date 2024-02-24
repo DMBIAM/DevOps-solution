@@ -83,6 +83,8 @@ jobs:
           script: |
             let stepName = '';
             const actionName = context.workflow;
+            const job = context.job;
+            const eventName = context.eventName;
             switch (actionName) {
               case 'Run Unit Tests':
                 stepName = 'Unit Tests';
@@ -99,7 +101,7 @@ jobs:
               default:
                 stepName = 'Unknown';
             }
-            const body = `:x: **${stepName}** failed. Please check the logs for more details.`;
+            const body = `:x: **${job}** failed. Please check the logs for more details.`;
             if (context.payload.issue) {
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
