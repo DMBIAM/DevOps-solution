@@ -69,6 +69,7 @@ jobs:
 
       - name: Generate Failure Comment
         id: create_issues
+        continue-on-error: true
         if: always() && ${{ failure() }}
         uses: actions/github-script@v7
         env:
