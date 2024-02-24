@@ -75,7 +75,7 @@ jobs:
           github-token: ${{ secrets.PERSONAL_TOKEN }}
         with:
           script: |
-            const stepName = job.name;
+            const stepName = steps.job.name;
             const { workflow, actor, runId, sha } = context;
             const body = `
               :x: **Step Name:** ${stepName}
