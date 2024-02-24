@@ -6,8 +6,6 @@ on:
       - develop
 
 permissions:
-  contents: write
-  pull-requests: write
   issues: write
   id-token: write
 
@@ -81,14 +79,32 @@ jobs:
           github-token: ${{ secrets.PERSONAL_TOKEN }}
         with:
           script: |
-            const stepName = context.job;
+            let stepName = '';
+            const actionName = context.workflow;
+            switch (actionName) {
+              case 'Run Unit Tests':
+                stepName = 'Unit Tests';
+                break;
+              case 'Static Code Analysis':
+                stepName = 'Static Code Analysis';
+                break;
+              case 'Code Coverage':
+                stepName = 'Code Coverage';
+                break;
+              case 'Run Bandit for security analysis':
+                stepName = 'Bandit Security Analysis';
+                break;
+              default:
+                stepName = 'Unknown';
+            }
             const body = `:x: **${stepName}** failed. Please check the logs for more details.`;
             if (context.payload.issue) {
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body: body
+                body: body,
+                title: stepName,
               });
             } else {
               await github.rest.issues.create({
