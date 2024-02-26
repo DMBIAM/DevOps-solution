@@ -28,3 +28,8 @@ jobs:
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
           docker tag ${{ needs.CI.outputs.REPO }}:latest ${{ secrets.DOCKERHUB_REPO }}:latest
           docker push ${{ secrets.DOCKERHUB_REPO }}:latest
+      
+      - 
+        name: Deploy to Kubernetes
+        id: deploy_kubernetes
+        run: echo "TODO Add steps to deploy the Docker image to Kubernetes" 
