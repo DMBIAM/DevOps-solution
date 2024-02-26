@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - develop
+      - ${{ env.PUSH_BRANCH }}
 
 permissions:
   contents: write
@@ -18,24 +18,12 @@ jobs:
       REPO: ${{ secrets.DOCKERHUB_REPO }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3      
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        uses: actions/checkout@v3  
 
       - name: Build and not push Docker image
         id: build_image
         run: |
-          docker buildx build \
+          docker build \
             --build-arg USER='devops' \
             --build-arg REPO='https://bitbucket.org/devsu/demo-devops-python.git' \
             --build-arg PORT=8000 \
@@ -85,7 +73,7 @@ jobs:
               :rocket: **Run ID:** ${runId}
               :bookmark: **SHA:** ${sha}
               \n\n
-              One or more steps have issues. Please verify them at https://github.com/DMBIAM/DevOps-solution/actions/runs/${runId}.
+              One or more steps encountered issues. Please review them at https://github.com/DMBIAM/DevOps-solution/actions/runs/${runId}.
             `;
             if (context.payload.issue) {
               await github.rest.issues.createComment({
