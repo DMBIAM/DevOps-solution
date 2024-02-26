@@ -7,7 +7,7 @@ on:
       - completed
   push:
     branches:
-      - ${{ env.PUSH_BRANCH }}
+      - ${{ vars.PUSH_BRANCH }}
 
 permissions:
   contents: write
