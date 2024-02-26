@@ -29,67 +29,32 @@ jobs:
             --build-arg PORT=8000 \
             --load \
             -t $REPO .
-
-  unit_tests:
-    runs-on: ubuntu-20.04
-    needs: build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3  
-        
+      
       - name: Run Unit Tests
         id: run_unit_test
         run: |
           docker run $REPO python3 manage.py test
         continue-on-error: true
         if: always() && ${{ failure() }}
-
-  static_code_analysis:
-    runs-on: ubuntu-20.04
-    needs: build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3  
-        
+      
       - name: Static Code Analysis
         id: run_static_code_analysis
         run: docker run $REPO pylint manage.py
         continue-on-error: true
         if: always() && ${{ failure() }}
 
-  code_coverage:
-    runs-on: ubuntu-20.04
-    needs: build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3  
-        
       - name: Code Coverage
         id: run_code_coverage
         run: docker run $REPO coverage run --source=manage.py -m pytest && coverage report 
         continue-on-error: true
         if: always() && ${{ failure() }}
 
-  security_analysis:
-    runs-on: ubuntu-20.04
-    needs: build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3  
-        
       - name: Run Bandit for security analysis
         id: run_security_analysis
         run: docker run $REPO ~/.local/bin/bandit -r .
         continue-on-error: true
         if: always() && ${{ failure() }}
 
-  generate_failure_comment:
-    runs-on: ubuntu-20.04
-    needs: [unit_tests, static_code_analysis, code_coverage, security_analysis]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3  
-        
       - name: Generate Failure Comment
         id: create_issues
         continue-on-error: true
