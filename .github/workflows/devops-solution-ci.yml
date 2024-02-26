@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - ${{ github.ref_name }}
+      - ${{ github.head_ref }}
 
 permissions:
   contents: write
