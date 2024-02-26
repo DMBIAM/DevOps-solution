@@ -5,9 +5,8 @@ on:
     workflows: ["CI"]
     types:
       - completed
-  push:
     branches:
-      - ${{ env.PUSH_BRANCH }}
+      - develop
 
 permissions:
   contents: write
