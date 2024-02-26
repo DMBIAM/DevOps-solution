@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - ${{ vars.PUSH_BRANCH }}
+      - develop
 
 permissions:
   contents: write
