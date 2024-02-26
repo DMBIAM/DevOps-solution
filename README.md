@@ -22,19 +22,24 @@ The pipeline requires specific permissions to perform certain actions within the
 The CI pipeline consists of a single job named "build" which is responsible for executing the following steps:
 
 1. **Checkout code**: Fetches the latest code from the repository using the `actions/checkout@v3` action.
-2. **Set up QEMU**: Configures QEMU for the Ubuntu 20.04 environment using the `docker/setup-qemu-action@v3` action.
-3. **Set up Docker Buildx**: Sets up Docker Buildx for building Docker images using the `docker/setup-buildx-action@v3` action.
-4. **Login to Docker Hub**: Authenticates with Docker Hub using the `docker/login-action@v3` action.
-5. **Build and not push Docker image**: Builds a Docker image without pushing it to the registry. It includes build arguments such as user, repository, and port.
-6. **Run Unit Tests**: Executes unit tests using the Python `manage.py test` command in a Docker container.
-7. **Static Code Analysis**: Performs static code analysis using pylint in a Docker container.
-8. **Code Coverage**: Runs code coverage analysis using pytest and generates a coverage report.
-9. **Run Bandit for security analysis**: Conducts security analysis using Bandit in a Docker container.
-10. **Generate Failure Comment**: Generates a failure comment if any of the previous steps fail. It creates an issue comment with details about the failed step, workflow, actor, run ID, SHA, and a link to the pipeline run for further verification.
+2. **Build and not push Docker image**: Builds a Docker image without pushing it to the registry. It includes build arguments such as user, repository, and port.
+![Build and not push Docker image](https://github.com/DMBIAM/DevOps-solution/blob/develop/pic-evidence/run-build-image-no-push.png)
+3. **Run Unit Tests**: Executes unit tests using the Python `manage.py test` command in a Docker container.
+![Run Unit Tests](https://github.com/DMBIAM/DevOps-solution/blob/develop/pic-evidence/run-unit-test.png)
+4. **Static Code Analysis**: Performs static code analysis using pylint in a Docker container.
+![Static Code Analysis](https://github.com/DMBIAM/DevOps-solution/blob/develop/pic-evidence/run-static-code-analysis.png)
+5. **Code Coverage**: Runs code coverage analysis using pytest and generates a coverage report.
+![Code Coverage](https://github.com/DMBIAM/DevOps-solution/blob/develop/pic-evidence/run-code-coverage.png)
+6. **Run Bandit for security analysis**: Conducts security analysis using Bandit in a Docker container.
+![Run Bandit for security analysis](https://github.com/DMBIAM/DevOps-solution/blob/develop/pic-evidence/run-security-analysis.png)
+7. **Generate Failure Comment**: Generates a failure comment if any of the previous steps fail. It creates an issue comment with details about the failed step, workflow, actor, run ID, SHA, and a link to the pipeline run for further verification.
+![Generate Failure Comment](https://github.com/DMBIAM/DevOps-solution/blob/develop/pic-evidence/run-create-comment-issue.png)
 
 ## Conclusion
 
 The CI pipeline automates the software development process by executing various tasks, including building, testing, and analysis. It helps ensure code quality, security, and reliability throughout the development lifecycle.
+
+![CI completed](https://github.com/DMBIAM/DevOps-solution/blob/develop/pic-evidence/run-ci-completed.png)
 
 ---
 
