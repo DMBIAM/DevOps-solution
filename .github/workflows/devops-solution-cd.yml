@@ -6,7 +6,7 @@ on:
     types:
       - completed
     branches:
-      - develop
+      - ${{ env.PUSH_BRANCH }}
 
 permissions:
   contents: write
@@ -35,8 +35,8 @@ jobs:
             --build-arg USER='ultron' \
             --build-arg REPO='https://bitbucket.org/devsu/demo-devops-python.git' \
             --build-arg PORT=8000 \
-            -t ${{ secrets.DOCKERHUB_REPO }}:latest .
-          docker push ${{ secrets.DOCKERHUB_REPO }}:latest
+            -t ${{ env.DOCKERHUB_REPO }}:latest .
+          docker push ${{ env.DOCKERHUB_REPO }}:latest
           
       - 
         name: Deploy to Kubernetes
