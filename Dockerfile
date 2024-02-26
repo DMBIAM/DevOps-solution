@@ -18,6 +18,9 @@ RUN apt-get update && \
 # Add new user  
 RUN useradd -m $USER
 
+# Install pylint and coverage
+RUN pip install --no-input pylint coverage pytest bandit
+
 # SET /app default dir
 WORKDIR /app
 
@@ -26,9 +29,6 @@ RUN git clone $REPO .
 
 # Install dependencies.
 RUN pip3 install --no-cache-dir -r requirements.txt
-
-# Install pylint and coverage
-RUN pip install --no-input pylint coverage pytest bandit
 
 # Migrate database
 RUN python3 manage.py makemigrations

@@ -51,7 +51,7 @@ jobs:
 
       - name: Run Bandit for security analysis
         id: run_security_analysis
-        run: docker run $REPO ~/.local/bin/bandit -r .
+        run: docker run $REPO bandit -r .
         continue-on-error: true
         if: always() && ${{ failure() }}
 
