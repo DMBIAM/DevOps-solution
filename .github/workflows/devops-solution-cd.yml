@@ -15,6 +15,12 @@ permissions:
   id-token: write
 
 jobs:
+  check_status:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check Status
+        run: echo "Checking status"
+
   deploy:
     needs: CI
     runs-on: ubuntu-20.04
