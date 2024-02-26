@@ -5,6 +5,9 @@ on:
     workflows: ["CI"]
     types:
       - completed
+  push:
+    branches:
+      - ${{ env.PUSH_BRANCH }}
 
 permissions:
   contents: write
@@ -15,7 +18,6 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-20.04
-    if: ${{ github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == env.PUSH_BRANCH }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
