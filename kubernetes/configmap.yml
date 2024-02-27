@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: devops-solution-config
+data:
+  USER: ultron
+  REPO: https://bitbucket.org/devsu/demo-devops-python.git
+  PORT: "8000"

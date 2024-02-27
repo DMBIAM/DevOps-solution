@@ -15,7 +15,7 @@ permissions:
   id-token: write
 
 jobs:
-  deploy:
+  deploy-docker-hub:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
@@ -37,8 +37,24 @@ jobs:
             --build-arg PORT=8000 \
             -t davidmartinezb1/devops-solution:latest .
           docker push davidmartinezb1/devops-solution:latest
-          
-      - 
-        name: Deploy to Kubernetes
+  
+  deploy-kubernete:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Apply ConfigMap
+        id: apply_config_map
+        run: kubectl apply -f kubernetes/configmap.yml
+
+      - name: Apply Secret
+        id: apply_secret
+        run: kubectl apply -f kubernetes/secret.yml
+
+      - name: Deploy to Kubernetes
         id: deploy_kubernetes
-        run: echo "TODO Add steps to deploy the Docker image to Kubernetes" 
+        run: |
+          kubectl apply -f kubernetes/deployment.yml
+          kubectl apply -f kubernetes/services.yml
+          kubectl apply -f kubernetes/ingress.yml

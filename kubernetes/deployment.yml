@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-solution-kubernetes
+  labels: 
+    app: devops-solution
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devops-solution
+  template:
+    metadata:
+      labels:
+        app: devops-solution
+    spec:
+      containers:
+        - name: kubernetes-devops-solution
+          image: davidmartinezb1/devops-solution:latest
+          ports:
+            - containerPort: 8000
+
