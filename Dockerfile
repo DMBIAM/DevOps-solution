@@ -6,9 +6,12 @@ LABEL autor="David Martinez B"
 LABEL version=1.0
 
 # ARG 
-ARG PORT
-ARG USER
-ARG REPO
+ARG PORT=8000
+ARG USER=hulk
+ARG REPO=https://bitbucket.org/devsu/demo-devops-python.git
+
+# ENV
+ENV APP_ADDRESS_PORT 0.0.0.0:8000
 
 # Install git for clone repo
 RUN apt-get update && \

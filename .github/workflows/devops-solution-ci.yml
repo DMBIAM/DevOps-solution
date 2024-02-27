@@ -24,9 +24,6 @@ jobs:
         id: build_image
         run: |
           docker build \
-            --build-arg USER='devops' \
-            --build-arg REPO='https://bitbucket.org/devsu/demo-devops-python.git' \
-            --build-arg PORT=8000 \
             --load \
             -t $REPO .
       

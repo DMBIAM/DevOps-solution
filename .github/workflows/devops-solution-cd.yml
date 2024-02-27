@@ -15,7 +15,7 @@ permissions:
   id-token: write
 
 jobs:
-  deploy:
+  deploy-docker-hub:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
@@ -31,14 +31,20 @@ jobs:
       - name: Push Docker Image to Docker Hub
         id: push_image
         run: |
-          docker build \
-            --build-arg USER='ultron' \
-            --build-arg REPO='https://bitbucket.org/devsu/demo-devops-python.git' \
-            --build-arg PORT=8000 \
-            -t davidmartinezb1/devops-solution:latest .
+          docker build -t davidmartinezb1/devops-solution:latest .
           docker push davidmartinezb1/devops-solution:latest
-          
-      - 
-        name: Deploy to Kubernetes
+  
+  deploy-kubernetes:
+    runs-on: ubuntu-20.04
+    needs: deploy-docker-hub
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Deploy to Kubernetes
         id: deploy_kubernetes
-        run: echo "TODO Add steps to deploy the Docker image to Kubernetes" 
+        run: |
+          kubectl apply -f kubernetes/deployment.yml
+          kubectl apply -f kubernetes/services.yml
+          kubectl apply -f kubernetes/ingress.yml
+
