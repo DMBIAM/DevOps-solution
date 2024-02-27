@@ -138,4 +138,3 @@ docker run -d -p 8000:8000 --name devOps-solution devops
 
 # Run kubernates cluster:
 kubectl apply -f kubernetes/configmap.yml && kubectl apply -f kubernetes/secret.yml && kubectl apply -f kubernetes/deployment.yml && kubectl apply -f kubernetes/services.yml && kubectl apply -f kubernetes/ingress.yml
-
