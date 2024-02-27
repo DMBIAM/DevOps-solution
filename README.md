@@ -41,6 +41,9 @@ The CI pipeline automates the software development process by executing various 
 
 ![CI completed](https://github.com/DMBIAM/DevOps-solution/blob/develop/pic-evidence/run-ci-completed.png)
 
+For CI successful, visit [CI LINK](https://github.com/DMBIAM/DevOps-solution/actions/runs/8054444469).
+
+
 ---
 
 # Continuous Deployment Pipeline Overview
@@ -110,6 +113,9 @@ The CD pipeline ensures smooth and efficient deployment of the application to th
 ## Conclusion
 
 The CD pipeline plays a crucial role in the development workflow by automating the deployment process, thereby facilitating rapid and reliable delivery of software updates.
+
+
+For CD successful, visit [CD LINK](https://github.com/DMBIAM/DevOps-solution/actions/runs/8054515117).
 
 ---
 
