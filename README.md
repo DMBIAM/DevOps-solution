@@ -58,6 +58,8 @@ The CD pipeline is responsible for automating the deployment of the application 
 
 1. **Build and Push Docker Image to Docker Hub:** In this stage, the Docker image of the application is built and pushed to the Docker Hub registry.
 
+For CD deploy image successfull, visit [CD LINK](https://github.com/DMBIAM/DevOps-solution/actions/runs/8054515117).
+
 ![CI completed](https://github.com/DMBIAM/DevOps-solution/blob/develop/pic-evidence/run-deploy-push-docker-hub.png)
 
 2. **Deployment to Kubernetes:** In this stage, Kubernetes resources required to deploy the application to a Kubernetes cluster are applied.
@@ -115,14 +117,20 @@ The CD pipeline ensures smooth and efficient deployment of the application to th
 The CD pipeline plays a crucial role in the development workflow by automating the deployment process, thereby facilitating rapid and reliable delivery of software updates.
 
 
-For CD successful, visit [CD LINK](https://github.com/DMBIAM/DevOps-solution/actions/runs/8054515117).
+For Show CD deploy image and kubernetes, visit [CD LINK](https://github.com/DMBIAM/DevOps-solution/actions/runs/8059547650).
+
+![CD action](https://github.com/DMBIAM/DevOps-solution/blob/develop/pic-evidence/run-cd-action.png)
+
+Note: The execution of the deploy-kubernete job fails, because the functionality was not fully configured in github action due to time and resource issues, it was only tested locally by deploying the cluster with 2 replicas
 
 ---
+### Global view of CI/CD actions
+
+![CI/CD action](https://github.com/DMBIAM/DevOps-solution/blob/develop/pic-evidence/show-CI-CD-actions.png)
 
 ### Build Image Local:
 
 ```bash
-
 # Build passing custom parameters
 docker build \
   --build-arg USER=devops \
@@ -135,7 +143,10 @@ docker build -t devops .
 
 # run container
 docker run -d -p 8000:8000 --name devOps-solution devops
+```
 
+### Deploy Kubernetes:
+```bash
 # Run kubernates cluster:
 kubectl apply -f kubernetes/configmap.yml && kubectl apply -f kubernetes/secret.yml && kubectl apply -f kubernetes/deployment.yml && kubectl apply -f kubernetes/services.yml && kubectl apply -f kubernetes/ingress.yml
-
+```
