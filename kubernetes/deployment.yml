@@ -19,4 +19,3 @@ spec:
           image: davidmartinezb1/devops-solution:latest
           ports:
             - containerPort: 8000
-
